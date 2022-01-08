@@ -13,7 +13,16 @@ class Window:
     pygame.init()
 
     def update(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False
+            if event.type == pygame.KEYDOWN:
+                if event.key == ord('q'):
+                    return False
+                if event.key == pygame.K_ESCAPE:
+                    pygame.display.toggle_fullscreen()
 
+        return True
 
 
 class Text:

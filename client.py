@@ -13,15 +13,7 @@ clock = pygame.time.Clock()
 current_screen = TITLE
 
 while game:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            game = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == ord('q'):
-                game = False
-            if event.key == pygame.K_ESCAPE:
-                pygame.display.toggle_fullscreen()
-
+    game = Window.update()
     if current_screen == TITLE:
         title.run(screen)
     elif current_screen == HOST:
