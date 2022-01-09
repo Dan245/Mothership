@@ -9,7 +9,7 @@ import pygame
 # for i in range(1,5):
 #     button_y.append(button_y[i-1]+s_h/12)
 # button_size = (s_w/3, s_h/15)
-title_text = Text("Mothership", GINGA_INTER, WHITE, [2, 4], [1.5, 2])
+title_text = Text("Mothership", GINGA_INTER, WHITE, [2, 4], [1.5, 4])
 # host_button = Button("Host Game", GINGA_INTER, WHITE, 5, WHITE, s_w/2, button_y[0], button_size)
 # find_button = Button("Find Game", GINGA_INTER, WHITE, 5, WHITE, s_w/2, button_y[1], button_size)
 # options_button = Button("Options", GINGA_INTER, WHITE, 5, WHITE, s_w/2, button_y[2], button_size)

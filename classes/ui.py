@@ -67,6 +67,7 @@ class Text:
 
 
     def update(self):
+        self.font_obj = pygame.font.Font(self.font, self.get_size())
         text = self.font_obj.render(self.text, True, self.color)
 
         text_rect = text.get_rect()
