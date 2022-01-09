@@ -11,6 +11,7 @@ RECEIVED_MESSAGE = "!RECEIVED"
 
 # game client
 FPS = 60
+CAPTION = "Mothership"
 
 # colors
 WHITE = (255, 255, 255, 255)
@@ -35,3 +36,6 @@ HOW2PLAY = 3
 OPTIONS = 4
 LOBBY = 5
 GAME = 6
+
+# images
+GAME_LOGO = "assets\\window_logo.png"
