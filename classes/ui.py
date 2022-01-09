@@ -3,24 +3,36 @@ import pygame
 
 class Window:
     pygame.display.set_caption("Mothership")
-    a = pygame.image.load('assets\\window_logo.png')
-    pygame.display.set_icon(a)
-    window = pygame.display.Info()
-    size = (window.current_w/2, window.current_h/2)
-    aspect_ratio = size[0]/size[1]
-    flags = pygame.SCALED | pygame.RESIZABLE
+    icon = pygame.image.load('assets\\window_logo.png')
+    pygame.display.set_icon(icon)
+    monitor = pygame.display.Info()
+    size = (monitor.current_w/2, monitor.current_h/2)
+    flags = pygame.RESIZABLE
+    fullscreen = False
     screen = pygame.display.set_mode(size, flags)
     pygame.init()
 
-    def update(self):
+    @staticmethod
+    def update():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == ord('q'):
-                    return False
-                if event.key == pygame.K_ESCAPE:
-                    pygame.display.toggle_fullscreen()
+            elif event.type == pygame.VIDEORESIZE and not Window.fullscreen:
+                Window.size = (event.w, event.h)
+                Window.screen = pygame.display.set_mode(Window.size, Window.flags)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_f:
+                    Window.fullscreen = not Window.fullscreen
+                    if Window.fullscreen:
+                        Window.flags = pygame.FULLSCREEN
+                        size = (Window.monitor.current_w, Window.monitor.current_h)
+                        Window.screen = pygame.display.set_mode(size, Window.flags)
+                    else:
+                        Window.flags = pygame.RESIZABLE
+                        Window.screen = pygame.display.set_mode(Window.size, Window.flags)
+
+
+
 
         return True
 
