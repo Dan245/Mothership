@@ -96,6 +96,15 @@ class Button(pygame.sprite.Sprite):
         self.group = pygame.sprite.GroupSingle()
         self.group.add(self)
 
+    @staticmethod
+    def create_buttons(button_texts, font, text_color, rect_color, start_pos, size_ratio):
+        buttons = []
+        for button in range(len(button_texts)):
+            pos = start_pos if not button else (start_pos[0], start_pos[1]+buttons[button-1].get_size()[1])
+            new_button = Button(button_texts[button], font, text_color, rect_color, pos, size_ratio)
+            buttons.append(new_button)
+        return buttons
+
     def get_pos(self):
         s_w = Window.screen.get_width()
         s_h = Window.screen.get_height()
