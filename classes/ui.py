@@ -77,9 +77,9 @@ class Text:
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, text, font, text_color, text_pos_ratio, text_size_ratio, rect_color, rect_pos_ratio, rect_size_ratio):
+    def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
         super().__init__()
-
+        text_size_ratio = size_ratio[0]*0.8 + size_ratio[1]*0.8
         self.text = Text(text, font, text_color, text_pos_ratio, text_size_ratio)
 
         self.image = pygame.Surface([width, height])
