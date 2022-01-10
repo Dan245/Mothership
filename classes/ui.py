@@ -79,24 +79,41 @@ class Text:
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
         super().__init__()
-        text_size_ratio = size_ratio[0]*0.8 + size_ratio[1]*0.8
+        text_size_ratio = (size_ratio[0]*0.8, size_ratio[1]*0.8)
+        text_pos_ratio = (pos_ratio[0], pos_ratio[1])
         self.text = Text(text, font, text_color, text_pos_ratio, text_size_ratio)
 
-        self.image = pygame.Surface([width, height])
+        self.x_r, self.y_r = pos_ratio
+        self.w_r, self.h_r = size_ratio
+
+        self.image = pygame.Surface(self.get_size())
         self.color = rect_color
         self.image.fill(self.color)
-        self.alpha = 0
+        self.alpha = 120
 
         self.rect = self.image.get_rect()
 
-    def get_color(self):
-        pass
+        self.group = pygame.sprite.GroupSingle()
+        self.group.add(self)
+
+    def get_pos(self):
+        s_w = Window.screen.get_width()
+        s_h = Window.screen.get_height()
+        return s_w / self.x_r, s_h / self.y_r
+
+    def get_size(self):
+        s_w = Window.screen.get_width()
+        s_h = Window.screen.get_height()
+        return [s_w / self.w_r, s_h / self.h_r]
 
     def update(self):
 
-        self.image = pygame.Surface([width, height])
+        self.image = pygame.Surface(self.get_size())
         self.image.set_alpha(self.alpha)
         self.image.fill(self.color)
 
         self.rect = self.image.get_rect()
-        self.rect.center = (center_x, center_y)
+        self.rect.center = self.get_pos()
+        self.group.draw(Window.screen)
+        self.text.update()
+
