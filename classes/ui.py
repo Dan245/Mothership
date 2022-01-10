@@ -89,7 +89,7 @@ class Button(pygame.sprite.Sprite):
         self.image = pygame.Surface(self.get_size())
         self.color = rect_color
         self.image.fill(self.color)
-        self.alpha = 120
+        self.alpha = 0
 
         self.rect = self.image.get_rect()
 
@@ -106,7 +106,17 @@ class Button(pygame.sprite.Sprite):
         s_h = Window.screen.get_height()
         return [s_w / self.w_r, s_h / self.h_r]
 
+    def check_mouse(self):
+        return True if self.rect.collidepoint(pygame.mouse.get_pos()) else False
+
     def update(self):
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEMOTION:
+                if self.check_mouse():
+                    self.alpha = 50
+                else:
+                    self.alpha = 0
+
 
         self.image = pygame.Surface(self.get_size())
         self.image.set_alpha(self.alpha)
