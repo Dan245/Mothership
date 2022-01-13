@@ -2,11 +2,11 @@ from classes.ui import *
 from constants import *
 import pygame
 
-button_texts = ["Mothership", "Host Game", "Find Game", "Options", "How to Play", "Quit"]
-title_text = Text("Mothership", MEDABOTS, WHITE, [2, 4], [1.5, 2])
+button_texts = ["Host Game", "Find Game", "Options", "How to Play", "Quit"]
+title_text = Text("Mothership", MEDABOTS, WHITE, [0.5, 0.25], [0.80, 0.80])
 
 
-buttons = Button.create_buttons(button_texts, GINGA_INTER, WHITE, WHITE, [2, 2], [3, 18])
+buttons = Button.create_buttons(button_texts, GINGA_INTER, WHITE, WHITE, [0.5, 0.5], [0.33, 0.056])
 
 
 

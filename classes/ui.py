@@ -44,16 +44,17 @@ class Text:
         self.color = color
         self.x_r, self.y_r = pos_ratio
         self.s_r = size_ratio
-        self.font_obj = pygame.font.Font(self.font, self.get_size())
+        self.get_size()
+        self.font_obj = pygame.font.Font(self.font, self.size)
 
     def get_size(self):
         ratio = self.get_ratio()
         s_size = [Window.screen.get_width(), Window.screen.get_height()]
         font_size = []
         for i in range(len(s_size)):
-            font_size.append((s_size[i]/(self.s_r[i]-0.3))/ratio[i])
+            font_size.append((s_size[i]*self.s_r[i])/ratio[i])
 
-        return round(min(font_size))
+        self.size = round(min(font_size))
 
     def get_ratio(self):
         sample_font = pygame.font.Font(self.font, 1)
@@ -63,11 +64,11 @@ class Text:
     def get_pos(self):
         s_w = Window.screen.get_width()
         s_h = Window.screen.get_height()
-        return s_w/self.x_r, s_h/self.y_r
+        return s_w*self.x_r, s_h*self.y_r
 
 
     def update(self):
-        self.font_obj = pygame.font.Font(self.font, self.get_size())
+        self.font_obj = pygame.font.Font(self.font, self.size)
         text = self.font_obj.render(self.text, True, self.color)
 
         text_rect = text.get_rect()
@@ -79,7 +80,7 @@ class Text:
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
         super().__init__()
-        text_size_ratio = (size_ratio[0]*0.8, size_ratio[1]*0.8)
+        text_size_ratio = (size_ratio[0]*0.6, size_ratio[1]*0.6)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])
         self.text = Text(text, font, text_color, text_pos_ratio, text_size_ratio)
 
@@ -100,7 +101,7 @@ class Button(pygame.sprite.Sprite):
     def create_buttons(button_texts, font, text_color, rect_color, start_pos, size_ratio):
         buttons = []
         for button in range(len(button_texts)):
-            pos = start_pos if not button else (start_pos[0], start_pos[1]+buttons[button-1].get_size()[1])
+            pos = start_pos if not button else (start_pos[0], start_pos[1] + size_ratio[1]*len(buttons))
             new_button = Button(button_texts[button], font, text_color, rect_color, pos, size_ratio)
             buttons.append(new_button)
         return buttons
@@ -108,12 +109,12 @@ class Button(pygame.sprite.Sprite):
     def get_pos(self):
         s_w = Window.screen.get_width()
         s_h = Window.screen.get_height()
-        return s_w / self.x_r, s_h / self.y_r
+        return s_w * self.x_r, s_h * self.y_r
 
     def get_size(self):
         s_w = Window.screen.get_width()
         s_h = Window.screen.get_height()
-        return [s_w / self.w_r, s_h / self.h_r]
+        return [s_w * self.w_r, s_h * self.h_r]
 
     def check_mouse(self):
         return True if self.rect.collidepoint(pygame.mouse.get_pos()) else False
