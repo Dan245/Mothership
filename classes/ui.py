@@ -1,51 +1,32 @@
 import pygame
+from screen import Window
 
 
-class Window:
-    pygame.display.set_caption("Mothership")
-    icon = pygame.image.load('assets\\window_logo.png')
-    pygame.display.set_icon(icon)
-    monitor = pygame.display.Info()
-    size = (monitor.current_w/2, monitor.current_h/2)
-    flags = pygame.RESIZABLE
-    fullscreen = False
-    screen = pygame.display.set_mode(size, flags)
-    pygame.init()
+class Element:
+    def check_events(self, event):
+        return event
 
-    @staticmethod
-    def update():
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
-            elif event.type == pygame.VIDEORESIZE and not Window.fullscreen:
-                Window.size = (event.w, event.h)
-                Window.screen = pygame.display.set_mode(Window.size, Window.flags)
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_f:
-                    Window.fullscreen = not Window.fullscreen
-                    if Window.fullscreen:
-                        Window.flags = pygame.FULLSCREEN
-                        size = (Window.monitor.current_w, Window.monitor.current_h)
-                        Window.screen = pygame.display.set_mode(size, Window.flags)
-                    else:
-                        Window.flags = pygame.RESIZABLE
-                        Window.screen = pygame.display.set_mode(Window.size, Window.flags)
+    def update(self):
+        return
+
+    def draw(self):
+        return
 
 
-
-
-        return True
-
-
-class Text:
+class Text(Element):
     def __init__(self, text, font, color, pos_ratio, size_ratio):
         self.text = text
         self.font = font
         self.color = color
         self.x_r, self.y_r = pos_ratio
         self.s_r = size_ratio
+        self.size = 1
         self.get_size()
         self.font_obj = pygame.font.Font(self.font, self.size)
+        self.text = None
+        self.text_render = None
+        self.text_rect = None
+        self.update()
 
     def get_size(self):
         ratio = self.get_ratio()
@@ -66,20 +47,23 @@ class Text:
         s_h = Window.screen.get_height()
         return s_w*self.x_r, s_h*self.y_r
 
-
     def update(self):
         self.font_obj = pygame.font.Font(self.font, self.size)
-        text = self.font_obj.render(self.text, True, self.color)
+        self.text_render = self.font_obj.render(self.text, True, self.color)
 
-        text_rect = text.get_rect()
-        text_rect.center = self.get_pos()
+        self.text_rect = self.text_render.get_rect()
+        self.text_rect.center = self.get_pos()
 
-        Window.screen.blit(text, text_rect)
+    def draw(self):
+        Window.screen.blit(self.text_render, self.text_rect)
 
 
-class Button(pygame.sprite.Sprite):
-    def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
+class Button(pygame.sprite.Sprite, Element):
+    def __init__(self, text, font, link, text_color, rect_color, pos_ratio, size_ratio):
         super().__init__()
+
+        self.link = link
+
         text_size_ratio = (size_ratio[0]*0.6, size_ratio[1]*0.6)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])
         self.text = Text(text, font, text_color, text_pos_ratio, text_size_ratio)
@@ -96,6 +80,7 @@ class Button(pygame.sprite.Sprite):
 
         self.group = pygame.sprite.GroupSingle()
         self.group.add(self)
+        self.update()
 
     @staticmethod
     def create_buttons(button_texts, font, text_color, rect_color, start_pos, size_ratio):
@@ -119,14 +104,18 @@ class Button(pygame.sprite.Sprite):
     def check_mouse(self):
         return True if self.rect.collidepoint(pygame.mouse.get_pos()) else False
 
-    def update(self):
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEMOTION:
-                if self.check_mouse():
-                    self.alpha = 50
-                else:
-                    self.alpha = 0
+    def check_events(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.alpha = 50 if self.check_mouse() else 0
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.alpha = 100 if self.check_mouse() else 0
+        if event.type == pygame.MOUSEBUTTONUP:
+            if self.alpha == 100 and self.check_mouse():
+                return self.link
+            else:
+                self.alpha = 0
 
+    def update(self):
 
         self.image = pygame.Surface(self.get_size())
         self.image.set_alpha(self.alpha)
@@ -134,6 +123,8 @@ class Button(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.center = self.get_pos()
-        self.group.draw(Window.screen)
         self.text.update()
 
+    def draw(self):
+        self.group.draw(Window.screen)
+        self.text.draw()

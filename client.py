@@ -4,18 +4,21 @@ from classes.ui import Window
 from constants import *
 from screens import title
 
-screen = Window.screen
+window = Window.screen
 
 game = True
 
 clock = pygame.time.Clock()
 
 current_screen = TITLE
+title =
+
+cs = None
 
 while game:
-    game = Window.update()
+    Window.update(c_s.elements)
     if current_screen == TITLE:
-        title.run(screen)
+        title.run()
     elif current_screen == HOST:
         pass
     elif current_screen == FIND:

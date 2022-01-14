@@ -8,6 +8,12 @@ title_text = Text("Mothership", MEDABOTS, WHITE, [0.5, 0.25], [0.80, 0.80])
 
 buttons = Button.create_buttons(button_texts, GINGA_INTER, WHITE, WHITE, [0.5, 0.5], [0.33, 0.056])
 
+elements = []
+
+for button in buttons:
+    elements.append(button)
+elements.append(title_text)
+
 
 
 def run(screen):
@@ -15,7 +21,8 @@ def run(screen):
     s_h = screen.get_height()
     screen.fill(LIGHT_SLATE_GREY)
 
-    title_text.update()
+    title_text.draw()
 
     for button in buttons:
-        button.update()
+        button.draw()
+    return True

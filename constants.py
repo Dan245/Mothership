@@ -2,7 +2,7 @@ import socket
 
 # server stuff
 HEADER = 256
-PORT = 5050
+PORT = 49009
 CLIENT_IP = socket.gethostbyname(socket.gethostname())
 CLIENT_ADDR = (CLIENT_IP, PORT)
 FORMAT = 'utf-8'
