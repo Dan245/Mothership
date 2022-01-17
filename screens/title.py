@@ -1,4 +1,5 @@
 from classes.ui import *
+from classes.screen import *
 from constants import *
 import pygame
 
@@ -14,15 +15,17 @@ for button in buttons:
     elements.append(button)
 elements.append(title_text)
 
+title = Screen(elements, TITLE, LIGHT_SLATE_GREY)
 
 
-def run(screen):
-    s_w = screen.get_width()
-    s_h = screen.get_height()
-    screen.fill(LIGHT_SLATE_GREY)
 
-    title_text.draw()
-
-    for button in buttons:
-        button.draw()
-    return True
+# def run(screen):
+#     s_w = screen.get_width()
+#     s_h = screen.get_height()
+#     screen.fill(LIGHT_SLATE_GREY)
+#
+#     title_text.draw()
+#
+#     for button in buttons:
+#         button.draw()
+#     return True

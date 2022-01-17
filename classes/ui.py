@@ -1,5 +1,5 @@
 import pygame
-from screen import Window
+from classes.screen import Window
 
 
 class Element:
@@ -59,10 +59,10 @@ class Text(Element):
 
 
 class Button(pygame.sprite.Sprite, Element):
-    def __init__(self, text, font, link, text_color, rect_color, pos_ratio, size_ratio):
+    def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
         super().__init__()
 
-        self.link = link
+        # self.link = link
 
         text_size_ratio = (size_ratio[0]*0.6, size_ratio[1]*0.6)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])

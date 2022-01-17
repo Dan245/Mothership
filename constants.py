@@ -1,4 +1,5 @@
 import socket
+import pygame
 
 # server stuff
 HEADER = 256

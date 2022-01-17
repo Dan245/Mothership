@@ -2,21 +2,20 @@ import pygame
 
 from classes.ui import Window
 from constants import *
-from screens import title
+from screens.title import *
+from classes.screen import Window
 
 window = Window.screen
-
 game = True
 
 clock = pygame.time.Clock()
 
 current_screen = TITLE
-title =
 
 cs = None
 
 while game:
-    Window.update(c_s.elements)
+    game = Window.update(title.elements)
     if current_screen == TITLE:
         title.run()
     elif current_screen == HOST:
