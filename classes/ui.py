@@ -3,9 +3,11 @@ from classes.screen import Window
 
 print(Window.screen)
 
+
 class Element:
     def check_events(self, event):
-        return event
+        if event.type == pygame.MOUSEMOTION:
+            self.update()
 
     def update(self):
         return
@@ -34,7 +36,7 @@ class Text(Element):
         s_size = [Window.screen.get_width(), Window.screen.get_height()]
         font_size = []
         for i in range(len(s_size)):
-            font_size.append((s_size[i]*self.s_r[i])/ratio[i])
+            font_size.append((s_size[i] * self.s_r[i]) / ratio[i])
 
         self.size = round(min(font_size))
 
@@ -46,9 +48,10 @@ class Text(Element):
     def get_pos(self):
         s_w = Window.screen.get_width()
         s_h = Window.screen.get_height()
-        return s_w*self.x_r, s_h*self.y_r
+        return s_w * self.x_r, s_h * self.y_r
 
     def update(self):
+        self.get_size()
         self.font_obj = pygame.font.Font(self.font, self.size)
         self.text_render = self.font_obj.render(self.text, True, self.color)
 
@@ -66,7 +69,7 @@ class Button(pygame.sprite.Sprite, Element):
 
         self.link = 0
 
-        text_size_ratio = (size_ratio[0]*0.6, size_ratio[1]*0.6)
+        text_size_ratio = (size_ratio[0] * 0.6, size_ratio[1] * 0.6)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])
         self.text = Text(text, font, text_color, text_pos_ratio, text_size_ratio)
 
@@ -88,7 +91,7 @@ class Button(pygame.sprite.Sprite, Element):
     def create_buttons(button_texts, font, text_color, rect_color, start_pos, size_ratio):
         buttons = []
         for button in range(len(button_texts)):
-            pos = start_pos if not button else (start_pos[0], start_pos[1] + size_ratio[1]*len(buttons))
+            pos = start_pos if not button else (start_pos[0], start_pos[1] + size_ratio[1] * len(buttons))
             new_button = Button(button_texts[button], font, text_color, rect_color, pos, size_ratio)
             buttons.append(new_button)
         return buttons
@@ -111,10 +114,10 @@ class Button(pygame.sprite.Sprite, Element):
             self.alpha = 50 if self.check_mouse() else 0
             self.update()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.alpha = 100 if self.check_mouse() else 0
+            self.alpha = 150 if self.check_mouse() else 0
             self.update()
         if event.type == pygame.MOUSEBUTTONUP:
-            if self.alpha == 100 and self.check_mouse():
+            if self.alpha == 150 and self.check_mouse():
                 self.update()
                 return self.link
             else:
