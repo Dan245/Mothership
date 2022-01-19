@@ -1,6 +1,7 @@
 import pygame
 from classes.screen import Window
 
+print(Window.screen)
 
 class Element:
     def check_events(self, event):
@@ -53,6 +54,7 @@ class Text(Element):
 
         self.text_rect = self.text_render.get_rect()
         self.text_rect.center = self.get_pos()
+        print(self.text_rect.center)
 
     def draw(self):
         Window.screen.blit(self.text_render, self.text_rect)
@@ -62,7 +64,7 @@ class Button(pygame.sprite.Sprite, Element):
     def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
         super().__init__()
 
-        # self.link = link
+        self.link = 0
 
         text_size_ratio = (size_ratio[0]*0.6, size_ratio[1]*0.6)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])

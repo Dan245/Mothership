@@ -45,6 +45,7 @@ class Window:
             if elements:
                 for element in elements:
                     function = element.check_events(event)
+                    print(function)
                     if function:
                         return function
 

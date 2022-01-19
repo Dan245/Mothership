@@ -12,8 +12,6 @@ clock = pygame.time.Clock()
 
 current_screen = TITLE
 
-cs = None
-
 while game:
     game = Window.update(title.elements)
     if current_screen == TITLE:
@@ -30,7 +28,6 @@ while game:
         pass
     elif current_screen == GAME:
         pass
-
     pygame.display.flip()
     clock.tick(FPS)
 
