@@ -66,4 +66,4 @@ class Screen:
         s.fill(self.bg)
         for element in self.elements:
             print(element)
-            element.draw()
+            element.deraw()

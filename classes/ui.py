@@ -10,7 +10,7 @@ class Element:
     def update(self):
         return
 
-    def draw(self):
+    def deraw(self):
         return
 
 
@@ -56,7 +56,7 @@ class Text(Element):
         self.text_rect.center = self.get_pos()
         print(self.text_rect.center)
 
-    def draw(self):
+    def deraw(self):
         Window.screen.blit(self.text_render, self.text_rect)
 
 
@@ -127,6 +127,6 @@ class Button(pygame.sprite.Sprite, Element):
         self.rect.center = self.get_pos()
         self.text.update()
 
-    def draw(self):
+    def deraw(self):
         self.group.draw(Window.screen)
-        self.text.draw()
+        self.text.deraw()
