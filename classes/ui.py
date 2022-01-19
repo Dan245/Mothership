@@ -24,9 +24,9 @@ class Text(Element):
         self.size = 1
         self.get_size()
         self.font_obj = pygame.font.Font(self.font, self.size)
-        self.text = None
-        self.text_render = None
-        self.text_rect = None
+        self.text_render = self.font_obj.render(self.text, True, self.color)
+
+        self.text_rect = self.text_render.get_rect()
         self.update()
 
     def get_size(self):
@@ -109,16 +109,20 @@ class Button(pygame.sprite.Sprite, Element):
     def check_events(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.alpha = 50 if self.check_mouse() else 0
+            self.update()
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.alpha = 100 if self.check_mouse() else 0
+            self.update()
         if event.type == pygame.MOUSEBUTTONUP:
             if self.alpha == 100 and self.check_mouse():
+                self.update()
                 return self.link
             else:
                 self.alpha = 0
+                self.update()
 
     def update(self):
-
+        print(f"This Updated {self.alpha}")
         self.image = pygame.Surface(self.get_size())
         self.image.set_alpha(self.alpha)
         self.image.fill(self.color)

@@ -65,5 +65,4 @@ class Screen:
         s = Screen.screen
         s.fill(self.bg)
         for element in self.elements:
-            print(element)
             element.deraw()
