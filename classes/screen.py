@@ -15,7 +15,6 @@ class Window:
     @staticmethod
     def update(elements=None):
         for event in pygame.event.get():
-            print(event)
             if event.type == pygame.WINDOWCLOSE or event.type == pygame.QUIT:
                 return False
             elif event.type == pygame.KEYDOWN:
@@ -26,7 +25,6 @@ class Window:
                 Window.screen = pygame.display.set_mode(Window.size, Window.flags)
                 if elements:
                     for element in elements:
-                        print(element)
                         element.update()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_f:
@@ -45,7 +43,6 @@ class Window:
             if elements:
                 for element in elements:
                     function = element.check_events(event)
-                    print(function)
                     if function:
                         return function
 

@@ -1,13 +1,29 @@
 import pygame
 from classes.screen import Window
-
-print(Window.screen)
+from constants import *
 
 
 class Element:
+    def __init__(self):
+        self.x_r, self.y_r, self.w_r, self.h_r = (1, 1, 1, 1)
+        self.rect = pygame.Rect(1, 1, 1, 1)
+
+    def get_pos(self):
+        s_w = Window.screen.get_width()
+        s_h = Window.screen.get_height()
+        return s_w * self.x_r, s_h * self.y_r
+
+    def get_size(self):
+        s_w = Window.screen.get_width()
+        s_h = Window.screen.get_height()
+        return [s_w * self.w_r, s_h * self.h_r]
+
     def check_events(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.update()
+
+    def check_mouse(self):
+        return True if self.rect.collidepoint(pygame.mouse.get_pos()) else False
 
     def update(self):
         return
@@ -18,6 +34,7 @@ class Element:
 
 class Text(Element):
     def __init__(self, text, font, color, pos_ratio, size_ratio):
+        super().__init__()
         self.text = text
         self.font = font
         self.color = color
@@ -57,7 +74,6 @@ class Text(Element):
 
         self.text_rect = self.text_render.get_rect()
         self.text_rect.center = self.get_pos()
-        print(self.text_rect.center)
 
     def deraw(self):
         Window.screen.blit(self.text_render, self.text_rect)
@@ -106,9 +122,6 @@ class Button(pygame.sprite.Sprite, Element):
         s_h = Window.screen.get_height()
         return [s_w * self.w_r, s_h * self.h_r]
 
-    def check_mouse(self):
-        return True if self.rect.collidepoint(pygame.mouse.get_pos()) else False
-
     def check_events(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.alpha = 50 if self.check_mouse() else 0
@@ -125,7 +138,6 @@ class Button(pygame.sprite.Sprite, Element):
                 self.update()
 
     def update(self):
-        print(f"This Updated {self.alpha}")
         self.image = pygame.Surface(self.get_size())
         self.image.set_alpha(self.alpha)
         self.image.fill(self.color)
@@ -137,3 +149,47 @@ class Button(pygame.sprite.Sprite, Element):
     def deraw(self):
         self.group.draw(Window.screen)
         self.text.deraw()
+
+
+class InputBox(Element):
+    def __init__(self, font, pos_ratio, size_ratio):
+        super().__init__()
+        self.colors = [CYAN, GREEN]
+        self.active = False
+        self.color = self.colors[self.active]
+
+        text_size_ratio = (size_ratio[0] * 0.6, size_ratio[1] * 0.6)
+        text_pos_ratio = (pos_ratio[0], pos_ratio[1])
+        self.text = "d"
+        self.text = Text(self.text, font, WHITE, text_pos_ratio, text_size_ratio)
+        self.x_r, self.y_r = pos_ratio
+        self.w_r, self.h_r = size_ratio
+        self.rect = pygame.Rect(self.get_pos(), self.get_size())
+
+    def check_events(self, event):
+        super().check_events(event)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.check_mouse():
+                self.active = True
+            else:
+                self.active = False
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_RETURN:
+                self.active = False
+            elif event.key == pygame.K_BACKSPACE:
+                self.text.text = self.text.text[:-1]
+            else:
+                self.text.text += event.unicode
+            self.update()
+
+    def update(self):
+        self.color = self.colors[self.active]
+        self.rect = pygame.Rect(self.get_pos(), self.get_size())
+        self.text.update()
+
+    def deraw(self):
+        pygame.draw.rect(Window.screen, self.color, self.rect, 15)
+        self.text.deraw()
+
+
+
