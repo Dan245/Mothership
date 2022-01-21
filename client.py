@@ -11,10 +11,10 @@ game = True
 
 clock = pygame.time.Clock()
 
-current_screen = HOST
+current_screen = TITLE
 
 while game:
-    game = Window.update(host.elements)
+    game = Window.update(title.elements)
     if current_screen == TITLE:
         title.run()
     elif current_screen == HOST:
