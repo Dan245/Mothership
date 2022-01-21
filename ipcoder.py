@@ -1,3 +1,7 @@
+import random
+from constants import *
+
+
 def remap(old_val, old_min, old_max, new_min, new_max):
     return round((((old_val - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min)
 
@@ -24,6 +28,11 @@ def get_ip_from_code(code):
     start = remap(key, 0, 255, 0, 26)
     ip = ""
     for letter_couple in range(len(letters)-1):
-        ip += f"{alphabet.index(alphabet[alphabet.index(letters[letter_couple][0])-start])*16 + alphabet.index(alphabet[alphabet.index(letters[letter_couple][1])-start])}"
+        first_letter_num = alphabet.index(alphabet[alphabet.index(letters[letter_couple][0])-start])*16
+        last_letter_num = alphabet.index(alphabet[alphabet.index(letters[letter_couple][1])-start])
+        ip += f"{first_letter_num + last_letter_num}"
         if letter_couple != len(letters)-2:
             ip += "."
+    return ip
+
+
