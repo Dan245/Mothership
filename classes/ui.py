@@ -152,19 +152,23 @@ class Button(pygame.sprite.Sprite, Element):
 
 
 class InputBox(Element):
-    def __init__(self, font, pos_ratio, size_ratio):
+    def __init__(self, base_text, font, pos_ratio, size_ratio):
         super().__init__()
         self.colors = [CYAN, GREEN]
+        self.text_colors = [GREY, WHITE]
         self.active = False
         self.color = self.colors[self.active]
+        self.base_text = base_text
 
         text_size_ratio = (size_ratio[0] * 0.6, size_ratio[1] * 0.6)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])
-        self.text = "d"
-        self.text = Text(self.text, font, WHITE, text_pos_ratio, text_size_ratio)
+        self.text = base_text
+        self.text = Text(self.text, font, self.text_colors[0], text_pos_ratio, text_size_ratio)
         self.x_r, self.y_r = pos_ratio
         self.w_r, self.h_r = size_ratio
         self.rect = pygame.Rect(self.get_pos(), self.get_size())
+        self.rect.center = self.get_pos()
+        self.delete = False
 
     def check_events(self, event):
         super().check_events(event)
@@ -177,14 +181,23 @@ class InputBox(Element):
             if event.key == pygame.K_RETURN:
                 self.active = False
             elif event.key == pygame.K_BACKSPACE:
-                self.text.text = self.text.text[:-1]
-            else:
-                self.text.text += event.unicode
+                if self.text.text != self.base_text:
+                    self.text.text = self.text.text[:-1]
+                if self.text.text == "":
+                    self.text.text = self.base_text
+            elif event.unicode:
+                if self.text.text == self.base_text:
+                    self.text.text = ""
+                if len(self.text.text) < 11:
+                    self.text.text += event.unicode
+                if len(self.text.text) == 5:
+                    self.text.text += "-"
             self.update()
 
     def update(self):
         self.color = self.colors[self.active]
         self.rect = pygame.Rect(self.get_pos(), self.get_size())
+        self.rect.center = self.get_pos()
         self.text.update()
 
     def deraw(self):

@@ -1,5 +1,4 @@
 import socket
-import pygame
 
 # server stuff
 HEADER = 256
@@ -24,6 +23,7 @@ YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 RED = (255, 0, 0)
 LIGHT_SLATE_GREY = (119, 136, 153)
+GREY = (105, 105, 105)
 
 # fonts
 GINGA_INTER = "assets\\fonts\\Font_GINGA_INTER.ttf"
@@ -32,7 +32,7 @@ MEDABOTS = "assets\\fonts\\Medabots.otf"
 # screens
 TITLE = 0
 HOST = 1
-FIND = 2
+JOIN = 2
 HOW2PLAY = 3
 OPTIONS = 4
 LOBBY = 5

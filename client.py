@@ -4,6 +4,7 @@ from classes.ui import Window
 from constants import *
 from screens.title import *
 from screens.host import *
+from screens.find import *
 from classes.screen import Window
 
 window = Window.screen
@@ -11,16 +12,16 @@ game = True
 
 clock = pygame.time.Clock()
 
-current_screen = HOST
+current_screen = JOIN
 
 while game:
-    game = Window.update(host.elements)
+    game = Window.update(joinn.elements)
     if current_screen == TITLE:
         title.run()
     elif current_screen == HOST:
         host.run()
-    elif current_screen == FIND:
-        pass
+    elif current_screen == JOIN:
+        joinn.run()
     elif current_screen == HOW2PLAY:
         pass
     elif current_screen == OPTIONS:
