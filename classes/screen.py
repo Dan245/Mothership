@@ -11,23 +11,32 @@ class Window:
     fullscreen = False
     screen = pygame.display.set_mode(size, flags)
     pygame.init()
+    free = True
 
     @staticmethod
     def update(elements=None):
         for event in pygame.event.get():
             if event.type == pygame.WINDOWCLOSE or event.type == pygame.QUIT:
                 return False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    return False
-            if event.type == pygame.VIDEORESIZE and not Window.fullscreen:
+            elif event.type == pygame.VIDEORESIZE and not Window.fullscreen:
                 Window.size = (event.w, event.h)
                 Window.screen = pygame.display.set_mode(Window.size, Window.flags)
                 if elements:
                     for element in elements:
                         element.update()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_f:
+                for element in elements:
+                    try:
+                        if element.active:
+                            Window.free = False
+                            break
+                        else:
+                            Window.free = True
+                    except:
+                        continue
+                if event.key == pygame.K_q and Window.free:
+                    return False
+                elif event.key == pygame.K_f and Window.free:
                     Window.fullscreen = not Window.fullscreen
                     if Window.fullscreen:
                         Window.flags = pygame.FULLSCREEN

@@ -14,7 +14,7 @@ FPS = 60
 CAPTION = "Mothership"
 
 # colors
-WHITE = (255, 255, 255, 255)
+WHITE = (255, 255, 255)
 GREEN = (0, 204, 0)
 ORANGE = (255, 165, 0)
 BLUE = (0, 165, 255)
@@ -23,7 +23,10 @@ YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 RED = (255, 0, 0)
 LIGHT_SLATE_GREY = (119, 136, 153)
+BRIGHT_GREY = (120, 120, 120)
 GREY = (105, 105, 105)
+DARK_WHITE = (235, 235, 235)
+LIGHT_CYAN = (100, 255, 255)
 
 # fonts
 GINGA_INTER = "assets\\fonts\\Font_GINGA_INTER.ttf"

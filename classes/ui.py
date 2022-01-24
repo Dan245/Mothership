@@ -154,16 +154,17 @@ class Button(pygame.sprite.Sprite, Element):
 class InputBox(Element):
     def __init__(self, base_text, font, pos_ratio, size_ratio):
         super().__init__()
-        self.colors = [CYAN, GREEN]
-        self.text_colors = [GREY, WHITE]
+        self.colors = [LIGHT_CYAN, CYAN]
+        self.text_colors = [BRIGHT_GREY, GREY]
         self.active = False
         self.color = self.colors[self.active]
         self.base_text = base_text
+        self.font = font
 
-        text_size_ratio = (size_ratio[0] * 0.6, size_ratio[1] * 0.6)
-        text_pos_ratio = (pos_ratio[0], pos_ratio[1])
-        self.text = base_text
-        self.text = Text(self.text, font, self.text_colors[0], text_pos_ratio, text_size_ratio)
+        self.t_s_r = (size_ratio[0] * 0.6, size_ratio[1] * 0.6)
+        self.t_p_r = (pos_ratio[0], pos_ratio[1])
+        self.start_text = base_text
+        self.text = Text(self.start_text, font, self.text_colors[0], self.t_p_r, self.t_s_r)
         self.x_r, self.y_r = pos_ratio
         self.w_r, self.h_r = size_ratio
         self.rect = pygame.Rect(self.get_pos(), self.get_size())
@@ -173,23 +174,29 @@ class InputBox(Element):
     def check_events(self, event):
         super().check_events(event)
         if event.type == pygame.MOUSEBUTTONDOWN:
+            temp = self.active
             if self.check_mouse():
                 self.active = True
             else:
                 self.active = False
-        if event.type == pygame.KEYDOWN and self.active:
+            if temp != self.active:
+                self.text = Text(self.text.text, self.font, self.text_colors[self.active], self.t_p_r, self.t_s_r)
+                self.update()
+
+        elif event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_RETURN:
                 self.active = False
+                self.text = Text(self.text.text, self.font, self.text_colors[self.active], self.t_p_r, self.t_s_r)
             elif event.key == pygame.K_BACKSPACE:
                 if self.text.text != self.base_text:
                     self.text.text = self.text.text[:-1]
                 if self.text.text == "":
                     self.text.text = self.base_text
-            elif event.unicode:
+            elif event.unicode and ord(event.unicode.upper()) <= 90 and ord(event.unicode.upper()) >= 65:
                 if self.text.text == self.base_text:
                     self.text.text = ""
                 if len(self.text.text) < 11:
-                    self.text.text += event.unicode
+                    self.text.text += event.unicode.upper()
                 if len(self.text.text) == 5:
                     self.text.text += "-"
             self.update()
