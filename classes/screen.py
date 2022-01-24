@@ -49,6 +49,13 @@ class Window:
                     if elements:
                         for element in elements:
                             element.update()
+                elif event.key == pygame.K_ESCAPE and Window.fullscreen:
+                    Window.fullscreen = not Window.fullscreen
+                    Window.flags = pygame.RESIZABLE
+                    Window.screen = pygame.display.set_mode(Window.size, Window.flags)
+                    if elements:
+                        for element in elements:
+                            element.update()
             if elements:
                 for element in elements:
                     function = element.check_events(event)
