@@ -9,18 +9,18 @@ from screens.find import joinn
 screens = [title, host, joinn]
 
 window = Window.screen
-game = True
 
 clock = pygame.time.Clock()
 
-current_screen = TITLE
+game = TITLE
+last_screen = game
 
 while game:
-    game = current_screen if Window.update(screens[current_screen-1].elements) else 0
-    print(game)
-
-    screens[current_screen-1].run()
+    game = Window.update(game, screens[game-1].elements)
+    if not game:
+        continue
+    screens[game-1].run(last_screen)
     pygame.display.flip()
-    current_screen = game
+    last_screen = game
     clock.tick(FPS)
 pygame.quit()

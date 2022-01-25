@@ -14,7 +14,7 @@ class Window:
     free = True
 
     @staticmethod
-    def update(elements=None):
+    def update(current_screen, elements=None):
         for event in pygame.event.get():
             if event.type == pygame.WINDOWCLOSE or event.type == pygame.QUIT:
                 return False
@@ -60,9 +60,10 @@ class Window:
                 for element in elements:
                     link = element.check_events(event)
                     if link:
-                        return link
+                        print(link)
+                        return 0 if link == "QUIT" else link
 
-        return True
+        return current_screen
 
 
 class Screen:
@@ -74,8 +75,11 @@ class Screen:
         self.screen_id = screen_id
         self.next_screen = self.screen_id
 
-    def run(self):
+    def run(self, l_s):
         s = Screen.screen
         s.fill(self.bg)
+        if l_s != self.screen_id:
+            for element in self.elements:
+                element.update()
         for element in self.elements:
             element.deraw()

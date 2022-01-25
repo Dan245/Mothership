@@ -22,7 +22,7 @@ BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
 CYAN = (0, 255, 255)
 RED = (255, 0, 0)
-LIGHT_SLATE_GREY = (119, 136, 153)
+LIGHT_SLATE_GREY = (33, 33, 33)
 BRIGHT_GREY = (120, 120, 120)
 GREY = (105, 105, 105)
 DARK_WHITE = (235, 235, 235)
@@ -34,7 +34,7 @@ GINGA_INTER = "assets\\fonts\\Font_GINGA_INTER.ttf"
 MEDABOTS = "assets\\fonts\\Medabots.otf"
 
 # screens
-QUIT = 0
+QUIT = "QUIT"
 TITLE = 1
 HOST = 2
 JOIN = 3
