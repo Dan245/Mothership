@@ -27,18 +27,19 @@ BRIGHT_GREY = (120, 120, 120)
 GREY = (105, 105, 105)
 DARK_WHITE = (235, 235, 235)
 LIGHT_CYAN = (100, 255, 255)
+BRIGHT_GREEN = (0, 184, 0)
 
 # fonts
 GINGA_INTER = "assets\\fonts\\Font_GINGA_INTER.ttf"
 MEDABOTS = "assets\\fonts\\Medabots.otf"
 
 # screens
-TITLE = 0
-HOST = 1
-JOIN = 2
-HOW2PLAY = 3
-OPTIONS = 4
-LOBBY = 5
+QUIT = 0
+TITLE = 1
+HOST = 2
+JOIN = 3
+HOW2PLAY = 4
+OPTIONS = 5
 GAME = 6
 
 # images

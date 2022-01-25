@@ -1,36 +1,26 @@
 import pygame
 
-from classes.ui import Window
 from constants import *
-from screens.title import *
-from screens.host import *
-from screens.find import *
 from classes.screen import Window
+from screens.title import title
+from screens.host import host
+from screens.find import joinn
+
+screens = [title, host, joinn]
 
 window = Window.screen
 game = True
 
 clock = pygame.time.Clock()
 
-current_screen = JOIN
+current_screen = TITLE
 
 while game:
-    game = Window.update(joinn.elements)
-    if current_screen == TITLE:
-        title.run()
-    elif current_screen == HOST:
-        host.run()
-    elif current_screen == JOIN:
-        joinn.run()
-    elif current_screen == HOW2PLAY:
-        pass
-    elif current_screen == OPTIONS:
-        pass
-    elif current_screen == LOBBY:
-        pass
-    elif current_screen == GAME:
-        pass
-    pygame.display.flip()
-    clock.tick(FPS)
+    game = current_screen if Window.update(screens[current_screen-1].elements) else 0
+    print(game)
 
+    screens[current_screen-1].run()
+    pygame.display.flip()
+    current_screen = game
+    clock.tick(FPS)
 pygame.quit()

@@ -6,7 +6,8 @@ title_text = Text("Join Game", MEDABOTS, WHITE, [0.5, 0.05], [0.25, 0.25])
 input_box = InputBox("Enter Room Code", GINGA_INTER, [0.5, 0.5], [0.75, 0.25])
 
 button_texts = ["Join Game",]
-buttons = Button.create_buttons(button_texts, GINGA_INTER, WHITE, WHITE, [0.5, 0.9], [0.2, 0.16])
+bls = [0,]
+buttons = Button.create_buttons(button_texts, GINGA_INTER, WHITE, WHITE, [0.5, 0.9], [0.2, 0.16], bls)
 
 elements = []
 elements.append(title_text)

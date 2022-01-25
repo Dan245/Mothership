@@ -80,10 +80,10 @@ class Text(Element):
 
 
 class Button(pygame.sprite.Sprite, Element):
-    def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio):
+    def __init__(self, text, font, text_color, rect_color, pos_ratio, size_ratio, link):
         super().__init__()
 
-        self.link = 0
+        self.link = link
 
         text_size_ratio = (size_ratio[0] * 0.8, size_ratio[1] * 0.8)
         text_pos_ratio = (pos_ratio[0], pos_ratio[1])
@@ -104,11 +104,11 @@ class Button(pygame.sprite.Sprite, Element):
         self.update()
 
     @staticmethod
-    def create_buttons(button_texts, font, text_color, rect_color, start_pos, size_ratio):
+    def create_buttons(button_texts, font, text_color, rect_color, start_pos, size_ratio, links):
         buttons = []
         for button in range(len(button_texts)):
             pos = start_pos if not button else (start_pos[0], start_pos[1] + size_ratio[1] * len(buttons))
-            new_button = Button(button_texts[button], font, text_color, rect_color, pos, size_ratio)
+            new_button = Button(button_texts[button], font, text_color, rect_color, pos, size_ratio, links[button])
             buttons.append(new_button)
         return buttons
 
@@ -154,8 +154,8 @@ class Button(pygame.sprite.Sprite, Element):
 class InputBox(Element):
     def __init__(self, base_text, font, pos_ratio, size_ratio):
         super().__init__()
-        self.colors = [LIGHT_CYAN, CYAN]
-        self.text_colors = [BRIGHT_GREY, GREY]
+        self.colors = [BRIGHT_GREY, GREY]
+        self.text_colors = [BRIGHT_GREEN, GREEN]
         self.active = False
         self.color = self.colors[self.active]
         self.base_text = base_text

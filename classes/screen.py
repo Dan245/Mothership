@@ -58,9 +58,9 @@ class Window:
                             element.update()
             if elements:
                 for element in elements:
-                    function = element.check_events(event)
-                    if function:
-                        return function
+                    link = element.check_events(event)
+                    if link:
+                        return link
 
         return True
 
