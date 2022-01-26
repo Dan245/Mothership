@@ -152,6 +152,7 @@ class Button(pygame.sprite.Sprite, Element):
 
 
 class InputBox(Element):
+    ip_code = ""
     def __init__(self, base_text, font, pos_ratio, size_ratio):
         super().__init__()
         self.colors = [BRIGHT_GREY, GREY]
@@ -179,6 +180,7 @@ class InputBox(Element):
                 self.active = True
             else:
                 self.active = False
+                InputBox.ip_code = self.text.text
             if temp != self.active:
                 self.text = Text(self.text.text, self.font, self.text_colors[self.active], self.t_p_r, self.t_s_r)
                 self.update()
@@ -186,6 +188,7 @@ class InputBox(Element):
         elif event.type == pygame.KEYDOWN and self.active:
             if event.key == pygame.K_RETURN:
                 self.active = False
+                InputBox.ip_code = self.text.text
                 self.text = Text(self.text.text, self.font, self.text_colors[self.active], self.t_p_r, self.t_s_r)
             elif event.key == pygame.K_BACKSPACE:
                 if self.text.text != self.base_text:

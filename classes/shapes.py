@@ -1,47 +1,38 @@
 from math import sqrt, cos, sin
 import pygame
+from classes.screen import Window
 
-
-class Polygon:
-    def __init__(self, color, rel_points, coords, center, screen):
+class Mothership:
+    def __init__(self, color, start_pos):
         self.color = color
-        self.rel_points = rel_points
-        self.coords = coords
-        self.center = center
-        self.screen = screen
-        self.vel = (0, 0)
+        self.center_ratio = start_pos
+        self.size_ratio = [0.1, 0.1]
+        self.rect = pygame.Rect(self.get_pos(), self.get_size())
 
-    def move(self):
-        centerX, centerY = self.center
-        velX, velY = self.vel
-        self.center = (centerX + velX, centerY + velY)
-        self.draw()
-
-    def accel(self):
-        centerX, centerY = self.center
-
-    def rotate(self, deg):
-        centerX, centerY = self.center
-        for i in range(len(self.coords)):
-            oldX, oldY = self.coords[i]
-            newX = centerX + (oldX - centerX) * cos(deg) - (oldY - centerY) * sin(deg)
-            newY = centerY + (oldX - centerX) * sin(deg) + (oldY - centerY) * cos(deg)
-            self.coords[i] = (newX, newY)
-
-    def get_distance(self, x1, y1, x2, y2):
-        return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
-
-    def get_coords(self):
-        centerX, centerY = self.center
-        self.coords = []
-        for i in range(len(self.rel_points)):
-            self.coords.append(self.rel_points[i](centerX, centerY))
+    def tick(self):
+        pass
 
     def draw(self):
-        self.get_coords()
-        pygame.draw.polygon(self.screen, self.color, self.coords)
+        pass
 
+    def get_pos(self):
+        s_w = Window.screen.get_width()
+        s_h = Window.screen.get_height()
+        x_r, y_r = self.center_ratio
+        return s_w * x_r, s_h * y_r
 
-# class Mothership(Polygon):
-#     def __init__(self, center)
-#         super().__init__(color, 10, )
+    def get_size(self):
+        s_w = Window.screen.get_width()
+        s_h = Window.screen.get_height()
+        w_r, h_r = self.size_ratio
+        return [s_w * w_r, s_h * h_r]
+
+    def check_events(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                pass
+            elif event.key == pygame.K_a:
+                pass
+            elif event.key == pygame.K_s:
+                pass
+            if event.key

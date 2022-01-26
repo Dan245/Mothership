@@ -1,3 +1,4 @@
+import socket
 import threading
 from constants import *
 
@@ -26,8 +27,6 @@ class Network:
 
         endpoint.send(send_length)
         endpoint.send(message)
-        if msg != Network.rcv_msg:
-            self.recv(endpoint, addr)
 
     def recv(self, endpoint=None, addr=None):
         endpoint = self.endpoint if not endpoint else endpoint
@@ -37,10 +36,7 @@ class Network:
             msg_length = int(msg_length)
             msg = endpoint.recv(msg_length).decode(Network.frmt)
             print(f"[{addr}] {msg}")
-            if msg != Network.rcv_msg:
-                print("Sending Received Message")
-                self.send(Network.rcv_msg, endpoint, addr)
-                return msg
+            return msg
         else:
             return False
 
@@ -48,16 +44,27 @@ class Network:
 class Server(Network):
     def __init__(self, server_ip, port):
         super().__init__(server_ip, port)
+        self.active = True
 
     def start(self):
+        self.endpoint = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.endpoint.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.endpoint.settimeout(1)
         self.endpoint.bind(self.addr)
         self.endpoint.listen()
+        self.active = True
         print(f"[LISTENING] Server is listening on {self.server_ip}")
-        while True:
-            client_endpoint, address = self.endpoint.accept()
-            new_thread = threading.Thread(target=self.handle_client, args=(client_endpoint, address))
-            new_thread.start()
-            print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
+        while self.active:
+            try:
+                client_endpoint, address = self.endpoint.accept()
+                new_thread = threading.Thread(target=self.handle_client, args=(client_endpoint, address), daemon=True)
+                new_thread.start()
+                print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 2}")
+            except:
+                pass
+        print("shutting down server")
+        self.endpoint.close()
+
 
     def handle_client(self, cl_endpoint, addr):
         print(f"[NEW CONNECTION] {addr} connected.")
@@ -67,9 +74,11 @@ class Server(Network):
             msg = self.recv(cl_endpoint, addr)
             if msg:
                 try:
-                    self.send("blah", cl_endpoint, addr)
-                    if msg == Network.dc_msg:
+                    if msg == DISCONNECT_MESSAGE:
                         connected = False
+                        print("this gets done")
+                        self.active = False
+                        continue
                 except ConnectionResetError:
                     connected = False
         print(f"[CONNECTION LOST] {addr} has disconnected")
@@ -81,6 +90,8 @@ class Client(Network):
         super().__init__(server_ip, port)
 
     def connect(self):
+        print(self.addr)
+        self.endpoint = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.endpoint.connect(self.addr)
 
     def disconnect(self):
