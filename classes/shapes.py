@@ -2,7 +2,7 @@ from math import sqrt, cos, sin
 import pygame
 from classes.screen import Window
 
-class Mothership:
+class Player:
     def __init__(self, color, start_pos):
         self.color = color
         self.center_ratio = start_pos

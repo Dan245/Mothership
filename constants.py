@@ -7,7 +7,6 @@ CLIENT_IP = socket.gethostbyname(socket.gethostname())
 CLIENT_ADDR = (CLIENT_IP, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-RECEIVED_MESSAGE = "!RECEIVED"
 
 # game client
 FPS = 60
