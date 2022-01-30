@@ -1,7 +1,7 @@
 # Mothership
 
-Was a 2D Spaceship Deathmatch Game made using PyGame. Play over LAN.  
-Wasn't able to finish it. Now it's a window resizing simulator!
+Was supposed to be a 2D LAN Spaceship Deathmatch Game made using PyGame.  
+Unfortunately I wasn't able to finish it. Now it's a window resizing simulator!
   
 Key features:
 - Window resizing and fullscreen
