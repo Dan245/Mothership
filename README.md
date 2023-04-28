@@ -16,3 +16,8 @@ Key features:
 My Final Performance Task for ICS3U1-01  
   
 Stable build has all the relevent code files without the PyCharm IDE stuff
+
+## Screenshots
+![title](https://github.com/Dan245/Dan245/blob/main/screenshots/mothership_title.png)
+![host](https://github.com/Dan245/Dan245/blob/main/screenshots/mothership_host.png)
+![join](https://github.com/Dan245/Dan245/blob/main/screenshots/mothership_join.png)
